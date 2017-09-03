@@ -1,5 +1,4 @@
 <?php
-namespace Turiknox\Webgains\Block;
 /*
  * Turiknox_Webgains
 
@@ -9,35 +8,30 @@ namespace Turiknox\Webgains\Block;
  * @license    https://github.com/Turiknox/magento2-webgains-tracking/blob/master/LICENSE.md
  * @version    1.0.0
  */
+namespace Turiknox\Webgains\Block;
+
 use Magento\Checkout\Model\Session;
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Locale\Resolver;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Store\Model\ScopeInterface;
-
 
 class Webgains extends Template
 {
     /**
      * @var \Magento\Sales\Model\Order
      */
-    protected $_order;
+    protected $order;
 
     /**
      * @var Session
      */
-    protected $_checkoutSession;
+    protected $checkoutSession;
 
     /**
      * @var Resolver
      */
-    protected $_locale;
-
-    /**
-     * @var ScopeConfigInterface
-     */
-    protected $_scopeConfig;
+    protected $locale;
 
     /*
      * Webgains XML Enable Path
@@ -65,21 +59,17 @@ class Webgains extends Template
      * @param Context $context
      * @param Session $checkoutSession
      * @param Resolver $locale
-     * @param ScopeConfigInterface $scopeConfig
      * @param array $data
      */
     public function __construct(
         Context $context,
         Session $checkoutSession,
         Resolver $locale,
-        ScopeConfigInterface $scopeConfig,
         array $data = []
-    )
-    {
+    ) {
         parent::__construct($context, $data);
-        $this->_checkoutSession = $checkoutSession;
-        $this->_locale = $locale;
-        $this->_scopeConfig = $scopeConfig;
+        $this->checkoutSession = $checkoutSession;
+        $this->locale = $locale;
     }
 
     /**
@@ -119,7 +109,7 @@ class Webgains extends Template
      */
     public function getLocaleCode()
     {
-        return $this->_locale->getLocale();
+        return $this->locale->getLocale();
     }
 
     /**
@@ -137,7 +127,7 @@ class Webgains extends Template
      */
     public function setOrder()
     {
-        $this->_order = $this->_checkoutSession->getLastRealOrder();
+        $this->order = $this->checkoutSession->getLastRealOrder();
     }
 
     /**
@@ -147,10 +137,10 @@ class Webgains extends Template
      */
     public function getOrder()
     {
-        if (is_null($this->_order)) {
+        if (is_null($this->order)) {
             $this->setOrder();
         }
-        return $this->_order;
+        return $this->order;
     }
 
     /**
@@ -161,7 +151,6 @@ class Webgains extends Template
     public function getOrderIncrementId()
     {
         return $this->getOrder()->getIncrementId();
-
     }
 
     /**
@@ -169,7 +158,7 @@ class Webgains extends Template
      */
     public function getGrandTotal()
     {
-        return number_format($this->_order->getGrandTotal(), 2, '.' , '');
+        return number_format($this->order->getGrandTotal(), 2, '.', '');
     }
 
     /**
@@ -177,7 +166,7 @@ class Webgains extends Template
      */
     public function getShippingAmount()
     {
-        return number_format($this->_order->getShippingInclTax(), 2, '.' , '');
+        return number_format($this->order->getShippingInclTax(), 2, '.', '');
     }
 
     /**
@@ -185,7 +174,7 @@ class Webgains extends Template
      */
     public function getCustomerId()
     {
-        return $this->_order->getCustomerId();
+        return $this->order->getCustomerId();
     }
 
     /**
@@ -195,7 +184,7 @@ class Webgains extends Template
      */
     public function getCurrency()
     {
-        return $this->_order->getOrderCurrencyCode();
+        return $this->order->getOrderCurrencyCode();
     }
 
     /**
@@ -205,7 +194,7 @@ class Webgains extends Template
      */
     public function getVisibleOrderItems()
     {
-        return $this->_order->getAllVisibleItems();
+        return $this->order->getAllVisibleItems();
     }
 
     /**
@@ -215,7 +204,7 @@ class Webgains extends Template
      */
     public function getCouponCode()
     {
-        return $this->_order->getCouponCode();
+        return $this->order->getCouponCode();
     }
 
     /**
